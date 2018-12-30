@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Chat</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+<script type="text/javascript">
+ console.log("Code started.");
+  var vidyoConnector;
+  function onVidyoClientLoaded(status) {
+    console.log("CLIENT VIDEO LOAD _durumu_: " + status.state);
+    if (status.state == "READY") {
+      VC.CreateVidyoConnector({
+        viewId:"renderer", //videonun goruntulenecegi konum
+        viewStyle:"VIDYO_CONNECTORVIEWSTYLE_Default",//video penceresinin gorsel etiketi
+        remoteParticipants: 4, // bir odada bulunabilen max kullanici sayisi
+        logFileFilter:"error", // hata durumu
+        logFileName:"",
+        userData:""
+
+
+      }).then(function(vc){
+        console.log("VC Success: " + vc);
+        vidyoConnector=vc;
+      }).catch(function(error){
+        console.log("ERROR" + error);
+      });
+    }
+  }
+
+
+
+  function joinCall(){
+    vidyoConnector.Connect({
+      host:"prod.vidyo.io", 
+      token:document.getElementById("token").value,
+      displayName:document.getElementById("userName").value,
+      resourceId:document.getElementById("roomName").value,
+      onSuccess: function(){console.log("Connected!!!");},
+      onFailure: function(reason){console.log("disconnected - " + reason);},
+      onDisconnected: function(reason){console.log("Disconnected! "+ reason);}
+    });
+  }
+</script>
+<script src="https://static.vidyo.io/latest/javascript/VidyoClient/VidyoClient.js?onload=onVidyoClientLoaded"></script>
+Room Name: <input type="text" id="roomName" value="demoRoom"><br><br>
+Your Name: <input type="text" id="userName" value="Giorgi"><br><br>
+Tokenimiz: <input type="text" value ="cHJvdmlzaW9uAGRlbW9Sb29tQDIyOGE2Ny52aWR5by5pbwA2MzcxMjk3MjI2NQAANTIwY2UxNzU0NjdhYWU4MWE5NjE4OGM3NTE1YjBiMmE2YWI1NWU4ZjBhOTZjMTBmMjIwNmM2ZjFkMmYwNDkyMTk3NDlkMzY2ZDhiNTc4NWYyYjU2MmY0NTA1YTRlZWIx" id="token" ><br><br>
+<button onclick="joinCall()">Connect</button>
+<div id="renderer" style="height:800px;"></div>
+
+</body>
+
+</html>

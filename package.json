@@ -1,0 +1,12 @@
+{
+  "name": "socket-chat-example",
+  "version": "0.0.2",
+  "description": "my second socket.io app with webrtc vyd.io",
+  "dependencies": {
+    "btoa": "^1.2.1",
+    "command-line-args": "^5.0.2",
+    "express": "^4.16.4",
+    "jssha": "^2.3.1",
+    "socket.io": "^2.2.0"
+  }
+}
